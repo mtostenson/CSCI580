@@ -16,7 +16,7 @@ using namespace std;
 class Robot {
 public:
 
-    // Robot constructor
+    // Robot constructor 
     Robot(char*, char*);
 
     // Reads file and populates grid vector 
@@ -28,6 +28,7 @@ public:
     // Observation helper to add values
     void addObservation(string);
 
+    // Access method for error float value
     float getError() { return sensory_error; }
 
     // Calculates number of differing binary bits between ints
