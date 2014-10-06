@@ -17,7 +17,7 @@ class Robot {
 public:
 
     // Robot constructor 
-    Robot(char*, char*);
+    Robot(int, char*[]);
 
     // Reads file and populates grid vector 
     void buildGrid(char*);
@@ -52,13 +52,28 @@ public:
     // Transpose matrix
     vector<vector<float> > transposeMatrix(vector<vector<float> >);
 
+    // Joint prediction matrix
+    vector<float> initialJointPredictionMatrix(vector<vector<int> >);
+
     // Print matrix
-    void printMatrix(vector<vector<float> >);
+    void printMatrix(vector<vector<float> >, string);
+
+    void printVector(vector<float>, string);
+
+    vector<float> multiply(vector<vector<float> >, vector<float>);
+
+    vector<int> inlineGrid();
+
+    vector<vector<float> > sensoryProbabilities(int);
+
+    vector<vector<float> > multiply2(vector<vector<float> >, vector<vector<float> >);
 
 private:
 
     // Holds robots world grid values
     vector<vector<int> > grid;
+
+    vector<vector<float> > transitivity_matrix;
 
     // Sensory error of inputs
     float sensory_error;
@@ -67,15 +82,14 @@ private:
     vector<string> observations;
 
     // Need a more descriptive name
-    float diff_values[5];
+    vector<float> diff_values;
 
+    // Possible cell locations for the robot
+    int possible_positions;
 };
 
 int main(int argc, char* argv[]) {  
-    Robot robot(argv[1], argv[2]);
-    for(int i = 3; i < argc; i++) {
-        robot.addObservation(argv[i]);
-    }
+    Robot robot(argc, argv);
     // cout << robot.getBitsDifference(15, 0) << endl;
     // cout << robot.NSWE("NS") << endl;
     // cout << robot.intToBinary(11) << endl;           
