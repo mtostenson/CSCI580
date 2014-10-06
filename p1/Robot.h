@@ -25,6 +25,9 @@ public:
     // Displays the grid for debugging
     void printGrid();
 
+    // Build matrix from grid
+    void buildMatrix();
+
     // Observation helper to add values
     void addObservation(string);
 
@@ -45,6 +48,9 @@ public:
 
     // Calculate difference values
     vector<float> calculate_diff_values(float);
+
+    // Transpose matrix
+    vector<vector<int> > transpose(vector<vector<int> >);
 
 private:
 

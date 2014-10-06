@@ -3,6 +3,7 @@
 Robot::Robot(char* fileName, char* error) {
     sensory_error = atof(error);
     buildGrid(fileName);
+    buildMatrix();
 }
 
 void Robot::buildGrid(char* fileName) {
@@ -21,51 +22,77 @@ void Robot::buildGrid(char* fileName) {
     file.close();
     cout << endl;
     printGrid();
-    cout << endl;
-    int dimen = grid.size() * grid[0].size();
+}
+
+void Robot::buildMatrix()
+{
+    int gridWidth = grid[0].size();
+    int gridHeight = grid.size();
+    int dimen = gridWidth * gridHeight;
     float matrix[dimen][dimen];
+
+    // Defaults all matrix values to 0
     for(int i = 0; i < dimen; i++) {
-        int x = i / grid[0].size();
-        int y = i % grid[0].size();
-        int cell_value = grid[x][y];
+        for(int j = 0; j < dimen; j++) {
+            matrix[i][j] = 0.0f;
+        }
+    }
+
+    for(int cell = 0; cell < dimen; cell++) {
+        int row = cell / gridWidth; // Matrix cell (col 0) row in grid
+        int col = cell % gridWidth; // Matrix cell (col 0) col in grid
+        int cell_value = grid[row][col];
         int neighbors = getBitsDifference(cell_value, 15);
-        fprintf(stdout, "cell[%d][%d] has %d nieghbors\n", x, y, neighbors);
-        string walls = intToBinary(cell_value);     
+        // fprintf(stdout, "cell[%d][%d] has %d neighbors\n", row, col, neighbors);
+        string walls = intToBinary(cell_value);
+        cout << walls << " - " << neighbors << " neighbors - walls ";
     
         // N
         if(walls[0] == '0') {
-            matrix[grid[0].size() - i][i] = 1 / neighbors;
-        }
-        
+            matrix[cell][cell - gridWidth] = 1.0f / neighbors;
+        } else cout << "N";
+
         // S
         if(walls[1] == '0') {
-            matrix[grid[0].size() + i][i] = 1 / neighbors;
-        }
-        
+            matrix[cell][cell + gridWidth] = 1.0f / neighbors;
+        } else cout << "S";
+
         // W
         if(walls[2] == '0') {
-            matrix[i - 1][i] = 1 / neighbors;
-        }
+            matrix[cell][cell - 1] = 1.0f / neighbors;
+        } else cout << "W";
 
         // E
         if(walls[3] == '0') {
-            matrix[i + 1][i] = 1 / neighbors;
-        }
+            matrix[cell][cell + 1] = 1.0f / neighbors;
+        } else cout << "E";
 
-        // for(int q = 0; q < dimen; q++) {
-        //  cout << matrix[q][i] << " ";
-        // }
-        // cout << endl;
-    }       
+        cout << endl;
+    }
+
+    cout << endl;
+
+    for(int i = 0; i < dimen; i++) {
+        for(int j = 0; j < dimen; j++) {
+            float val = matrix[i][j];
+            cout << "[" << val;
+            if(val == 0.0f || val == 1.0f) cout << ".0";
+            cout << "] ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
 void Robot::printGrid() {
     for(int i = 0; i < grid.size(); i++) {
         for(int j = 0; j < grid[i].size(); j++) {
+            if(grid[i][j] < 10) cout << 0;
             fprintf(stdout,"%d ", grid[i][j]);
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 void Robot::addObservation(string pObservation) {
@@ -110,4 +137,14 @@ vector<float> Robot::calculate_diff_values(float e) {
         result.push_back(pow(e, i) * pow(1 - e, 4 - i));
     }
     return result;
+}
+
+vector<vector<int> > Robot::transpose(vector<vector<int> > matrix1) {
+    int size = matrix1.size();    
+    for(int i = 0; i < size; i++) {
+        for(int j = 0; j < size; j++) {
+
+        }
+    }
+    return matrix1;
 }
