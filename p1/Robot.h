@@ -50,7 +50,10 @@ public:
     vector<float> calculate_diff_values(float);
 
     // Transpose matrix
-    vector<vector<int> > transpose(vector<vector<int> >);
+    vector<vector<float> > transposeMatrix(vector<vector<float> >);
+
+    // Print matrix
+    void printMatrix(vector<vector<float> >);
 
 private:
 

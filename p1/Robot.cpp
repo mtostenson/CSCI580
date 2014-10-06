@@ -29,13 +29,15 @@ void Robot::buildMatrix()
     int gridWidth = grid[0].size();
     int gridHeight = grid.size();
     int dimen = gridWidth * gridHeight;
-    float matrix[dimen][dimen];
+    vector<vector<float> > matrix;
 
     // Defaults all matrix values to 0
     for(int i = 0; i < dimen; i++) {
+        vector<float> row;
         for(int j = 0; j < dimen; j++) {
-            matrix[i][j] = 0.0f;
+            row.push_back(0.0f);
         }
+        matrix.push_back(row);
     }
 
     for(int cell = 0; cell < dimen; cell++) {
@@ -66,22 +68,11 @@ void Robot::buildMatrix()
         if(walls[3] == '0') {
             matrix[cell][cell + 1] = 1.0f / neighbors;
         } else cout << "E";
-
-        cout << endl;
+        cout << endl << endl;
     }
-
-    cout << endl;
-
-    for(int i = 0; i < dimen; i++) {
-        for(int j = 0; j < dimen; j++) {
-            float val = matrix[i][j];
-            cout << "[" << val;
-            if(val == 0.0f || val == 1.0f) cout << ".0";
-            cout << "] ";
-        }
-        cout << endl;
-    }
-    cout << endl;
+    printMatrix(matrix);
+    vector<vector<float> > matrix2 = transposeMatrix(matrix);
+    printMatrix(matrix2);
 }
 
 void Robot::printGrid() {
@@ -139,12 +130,29 @@ vector<float> Robot::calculate_diff_values(float e) {
     return result;
 }
 
-vector<vector<int> > Robot::transpose(vector<vector<int> > matrix1) {
-    int size = matrix1.size();    
+vector<vector<float> > Robot::transposeMatrix(vector<vector<float> > matrix1) {
+    int size = matrix1.size(); 
+    vector<vector<float> > matrix2;
     for(int i = 0; i < size; i++) {
+        vector<float> col;
         for(int j = 0; j < size; j++) {
-
+            col.push_back(matrix1[j][i]);
         }
+        matrix2.push_back(col);
     }
-    return matrix1;
+    return matrix2;
+}
+
+void Robot::printMatrix(vector<vector<float> > matrix) {
+    int dimen = matrix.size();
+    for(int i = 0; i < dimen; i++) {
+        for(int j = 0; j < dimen; j++) {
+            float val = matrix[i][j];
+            cout << "[" << val;
+            if(val == 0.0f || val == 1.0f) cout << ".0";
+            cout << "] ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
