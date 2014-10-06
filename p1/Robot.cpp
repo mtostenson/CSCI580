@@ -84,13 +84,15 @@ void Robot::buildMatrix()
     vector<vector<float> > matrix2 = transposeMatrix(matrix);
     printMatrix(matrix2, "Translated Transitivity Matrix");
     transitivity_matrix = matrix2;
-    vector<float> jpm = initialJointPredictionMatrix(grid);
-    printVector(jpm, "JO");
-    printVector(multiply(transitivity_matrix, jpm), "J1");
+    vector<float> j0 = initialJointPredictionMatrix(grid);
+    printVector(j0, "JO");    
+    vector<float> j1 = multiply(transitivity_matrix, j0);
+    printVector(j1, "J1");
     vector<vector<float> > sp0 = sensoryProbabilities(NSWE(observations[0]));
     printMatrix(sp0, "Sensory Probabilities for Observation 0");
     vector<vector<float> > Z = multiply2(matrix2, sp0);
     printMatrix(Z, "Matrix Z");
+    printVector(multiply(Z, j1), "Joint Prediction matrix is now...");
 }
 
 void Robot::printGrid() {
@@ -211,9 +213,9 @@ vector<float> Robot::multiply(vector<vector<float> > T, vector<float> J) {
     for(int i = 0; i < T.size(); i++) {
         float sum = 0;
         for(int j = 0; j < T[i].size(); j++) {            
-            sum += T[i][j];
+            sum += (T[i][j]*J[j]);
         }
-        result.push_back(sum * J[i])            ;
+        result.push_back(sum);
     }
     return result;
 }
