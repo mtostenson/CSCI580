@@ -27,17 +27,18 @@ Robot::Robot(int argc, char* argv[])
     // Calculates the joint prediction probabilities at time 1
     j = multiply(transitivity_matrix, *j);
 
-    // Initializes diagonal sensory probabilities matrix
-    vector<vector<double> > sp0 = sensoryProbabilities(NSWE(observations[0]));    
+    for(int i = 0; i < observations.size() - 1; i++) {
+        // Initializes diagonal sensory probabilities matrix
+        vector<vector<double> > sp0 = sensoryProbabilities(NSWE(observations[i]));    
 
-    // Initializes matrix Z from sensory probabilties from observation 0
-    vector<vector<double> > Z = multiply2(transitivity_matrix, sp0);
+        // Initializes matrix Z from sensory probabilties from observation 0
+        vector<vector<double> > Z = multiply2(transitivity_matrix, sp0);
 
-    // Recalculates joint prediction probabilities
-    j = multiply(Z, *j);
-    
+        // Recalculates joint prediction probabilities
+        j = multiply(Z, *j);
+    }    
 
-    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[1]));
+    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[observations.size()-1]));
     printMatrix(sp1, "Sensory Probabilities for Observation 1");
 
     vector<double>* Z2 = multiply(sp1, *j);
