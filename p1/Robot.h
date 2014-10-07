@@ -58,20 +58,28 @@ public:
     // Print matrix
     void printMatrix(vector<vector<double> >, string);
 
+    // Prints vector for debugging
     void printVector(vector<double>, string);
 
+    // Multiplies 2d vector with 1d vector
     vector<double>* multiply(vector<vector<double> >, vector<double>);
 
+    // Converts 2d grid vector to 1d vector
     vector<int> inlineGrid();
 
+    // Returns 2d vector of sensory probabilities given sensory input
     vector<vector<double> > sensoryProbabilities(int);
 
+    // Multiplies two 2d vectors together
     vector<vector<double> > multiply2(vector<vector<double> >, vector<vector<double> >);
 
+    // Resturns the sum of all values in a 1d vector
     double sumVector(vector<double>);
 
+    // Normalizes the values of a 1d vector
     vector<double> normalize(vector<double>);
 
+    // Outputs the result
     void showAnswer(vector<double>);
 
 private:
@@ -79,6 +87,7 @@ private:
     // Holds robots world grid values
     vector<vector<int> > grid;
 
+    // Holds the transitivity matrix of the grid
     vector<vector<double> > transitivity_matrix;
 
     // Sensory error of inputs
@@ -97,6 +106,7 @@ private:
     double answer;
 };
 
+// Program entry point
 int main(int argc, char* argv[]) {  
     Robot robot(argc, argv);
 }
