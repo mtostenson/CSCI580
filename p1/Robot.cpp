@@ -39,13 +39,13 @@ void Robot::buildMatrix()
     int gridWidth = grid[0].size();
     int gridHeight = grid.size();
     int dimen = gridWidth * gridHeight;
-    vector<vector<float> > matrix;
+    vector<vector<double> > matrix;
 
     // Defaults all matrix values to 0
     for(int i = 0; i < dimen; i++) {
-        vector<float> row;
+        vector<double> row;
         for(int j = 0; j < dimen; j++) {
-            row.push_back(0.0f);
+            row.push_back(0.0);
         }
         matrix.push_back(row);
     }
@@ -60,39 +60,49 @@ void Robot::buildMatrix()
     
         // N
         if(walls[0] == '0') {
-            matrix[cell][cell - gridWidth] = 1.0f / neighbors;
+            matrix[cell][cell - gridWidth] = 1.0 / neighbors;
         } else cout << "N";
 
         // S
         if(walls[1] == '0') {
-            matrix[cell][cell + gridWidth] = 1.0f / neighbors;
+            matrix[cell][cell + gridWidth] = 1.0 / neighbors;
         } else cout << "S";
 
         // W
         if(walls[2] == '0') {
-            matrix[cell][cell - 1] = 1.0f / neighbors;
+            matrix[cell][cell - 1] = 1.0 / neighbors;
         } else cout << "W";
 
         // E
         if(walls[3] == '0') {
-            matrix[cell][cell + 1] = 1.0f / neighbors;
+            matrix[cell][cell + 1] = 1.0 / neighbors;
         } else cout << "E";
         cout << endl;
     }
     cout << endl;
     printMatrix(matrix, "Transitivity Matrix");
-    vector<vector<float> > matrix2 = transposeMatrix(matrix);
+    vector<vector<double> > matrix2 = transposeMatrix(matrix);
     printMatrix(matrix2, "Translated Transitivity Matrix");
     transitivity_matrix = matrix2;
-    vector<float> j0 = initialJointPredictionMatrix(grid);
+    vector<double> j0 = initialJointPredictionMatrix(grid);
     printVector(j0, "JO");    
-    vector<float> j1 = multiply(transitivity_matrix, j0);
+    vector<double> j1 = multiply(transitivity_matrix, j0);
     printVector(j1, "J1");
-    vector<vector<float> > sp0 = sensoryProbabilities(NSWE(observations[0]));
+    vector<vector<double> > sp0 = sensoryProbabilities(NSWE(observations[0]));
     printMatrix(sp0, "Sensory Probabilities for Observation 0");
-    vector<vector<float> > Z = multiply2(matrix2, sp0);
+    vector<vector<double> > Z = multiply2(matrix2, sp0);
     printMatrix(Z, "Matrix Z");
-    printVector(multiply(Z, j1), "Joint Prediction matrix is now...");
+    vector<double> j2 = multiply(Z, j1);
+    printVector(j2, "J2");
+    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[1]));
+    printMatrix(sp1, "Sensory Probabilities for Observation 1");
+    vector<double> Z2 = multiply(sp1, j2);
+    printVector(Z2, "Matrix Z");
+    answer = sumVector(Z2);
+    cout << "\nSum: " << answer << endl;
+    vector<double> normal = normalize(Z2);
+    printVector(normal, "Result");
+    showAnswer(normal);
 }
 
 void Robot::printGrid() {
@@ -149,19 +159,19 @@ string Robot::intToBinary(int n) {
     return bits.to_string();
 }
 
-vector<float> Robot::calculate_diff_values(float e) {
-    vector<float> result;
+vector<double> Robot::calculate_diff_values(double e) {
+    vector<double> result;
     for(int i = 0; i <5; i++) {
         result.push_back(pow(e, i) * pow(1 - e, 4 - i));
     }
     return result;
 }
 
-vector<vector<float> > Robot::transposeMatrix(vector<vector<float> > matrix1) {
+vector<vector<double> > Robot::transposeMatrix(vector<vector<double> > matrix1) {
     int size = matrix1.size(); 
-    vector<vector<float> > matrix2;
+    vector<vector<double> > matrix2;
     for(int i = 0; i < size; i++) {
-        vector<float> col;
+        vector<double> col;
         for(int j = 0; j < size; j++) {
             col.push_back(matrix1[j][i]);
         }
@@ -170,29 +180,29 @@ vector<vector<float> > Robot::transposeMatrix(vector<vector<float> > matrix1) {
     return matrix2;
 }
 
-vector<float> Robot::initialJointPredictionMatrix(vector<vector<int> > grid) {    
-    vector<float> result;
+vector<double> Robot::initialJointPredictionMatrix(vector<vector<int> > grid) {    
+    vector<double> result;
     for(int i = 0; i < grid.size(); i++) {
         for(int j = 0; j < grid[0].size(); j++) {
-            vector<float> single;
+            vector<double> single;
             if(grid[i][j] != 15) {
-                result.push_back(1.0f / possible_positions);
+                result.push_back(1.0 / possible_positions);
             } else {
-                result.push_back(0.0f);
+                result.push_back(0.0);
             }
         }        
     }
     return result;    
 }
 
-void Robot::printMatrix(vector<vector<float> > matrix, string title) {
+void Robot::printMatrix(vector<vector<double> > matrix, string title) {
     cout << title << ":\n";
     int dimen = matrix.size();
     for(int i = 0; i < dimen; i++) {
         for(int j = 0; j < dimen; j++) {
-            float val = matrix[i][j];
+            double val = matrix[i][j];
             cout << "[" << val;
-            if(val == 0.0f || val == 1.0f) cout << ".0";
+            if(val == 0.0 || val == 1.0) cout << ".0";
             cout << "] ";
         }
         cout << endl;
@@ -200,7 +210,7 @@ void Robot::printMatrix(vector<vector<float> > matrix, string title) {
     cout << endl;
 }
 
-void Robot::printVector(vector<float> matrix, string title) {
+void Robot::printVector(vector<double> matrix, string title) {
     fprintf(stdout, "%s:\n", title.c_str());
     for(int i =0; i < matrix.size(); i++) {
         fprintf(stdout, "[%f]\n", matrix[i]);
@@ -208,10 +218,10 @@ void Robot::printVector(vector<float> matrix, string title) {
     cout << endl;
 }
 
-vector<float> Robot::multiply(vector<vector<float> > T, vector<float> J) {
-    vector<float> result;
+vector<double> Robot::multiply(vector<vector<double> > T, vector<double> J) {
+    vector<double> result;
     for(int i = 0; i < T.size(); i++) {
-        float sum = 0;
+        double sum = 0;
         for(int j = 0; j < T[i].size(); j++) {            
             sum += (T[i][j]*J[j]);
         }
@@ -230,29 +240,59 @@ vector<int> Robot::inlineGrid() {
     return result;
 }
 
-vector<vector<float> > Robot::sensoryProbabilities(int observation) {
+vector<vector<double> > Robot::sensoryProbabilities(int observation) {
     vector<int> g = inlineGrid();
-    vector<vector<float> > result;
+    vector<vector<double> > result;
     for(int i = 0; i < g.size(); i++) {
-        vector<float> row;
+        vector<double> row;
         for(int j = 0; j < i; j++) {
-            row.push_back(0.0f);
+            row.push_back(0.0);
         }
         row.push_back(diff_values[getBitsDifference(g[i], observation)]);    
         for(int j = 0; j < g.size() - i; j++) {
-            row.push_back(0.0f);
+            row.push_back(0.0);
         }
         result.push_back(row);
     }
     return result;
 }
 
-vector<vector<float> > Robot::multiply2(vector<vector<float> > T, vector<vector<float> > O) {
-    vector<vector<float> > result = T;    
+vector<vector<double> > Robot::multiply2(vector<vector<double> > T, vector<vector<double> > O) {
+    vector<vector<double> > result = T;    
     for(int i = 0; i < O.size(); i++) {
         for(int j = 0; j < T[i].size(); j++) {
             result[i][j] = T[i][j] * O[j][j];
         }
     }
     return result;
+}
+
+double Robot::sumVector(vector<double> input) {
+    double sum = 0.0;
+    for(int i = 0; i < input.size(); i++) {
+        sum += input[i];
+    }
+    return sum;
+}
+
+vector<double> Robot::normalize(vector<double> input) {
+    vector<double> result;
+    double sum = sumVector(input);
+    for(int i = 0; i < input.size(); i++) {
+        result.push_back(input[i]/sum);
+    }
+    return result;
+}
+
+void Robot::showAnswer(vector<double> normalized) {
+    double largest = 0.0;
+    int largest_index;
+    for(int i = 0; i < normalized.size(); i++) {
+        if(normalized[i] > largest) {
+            largest = normalized[i];
+            largest_index = i;
+        }
+    }
+    int gridWidth = grid[0].size();
+    cout << "(" << largest_index / gridWidth << ", " << largest_index % gridWidth<< ") " << largest << endl;
 }
