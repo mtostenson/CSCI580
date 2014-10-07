@@ -38,16 +38,14 @@ Robot::Robot(int argc, char* argv[])
         j = multiply(Z, *j);
     }    
 
-    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[observations.size()-1]));
-    printMatrix(sp1, "Sensory Probabilities for Observation 1");
+    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[observations.size()-1]));    
 
-    vector<double>* Z2 = multiply(sp1, *j);
-    printVector(*Z2, "Matrix Z");
+    vector<double>* Z2 = multiply(sp1, *j);    
     
-    answer = sumVector(*Z2);
-    cout << "\nSum: " << answer << endl;
-    vector<double> normal = normalize(*Z2);
-    printVector(normal, "Result");
+    answer = sumVector(*Z2);    
+    
+    vector<double> normal = normalize(*Z2);    
+    
     showAnswer(normal);
 }
 
@@ -68,9 +66,7 @@ void Robot::buildGrid(char* fileName) {
         }       
         grid.push_back(vec);
     }
-    file.close();
-    cout << endl;
-    printGrid();    
+    file.close();       
 }
 
 vector<vector<double> > Robot::buildMatrix()
@@ -94,32 +90,28 @@ vector<vector<double> > Robot::buildMatrix()
         int cell_value = grid[row][col];
         int neighbors = getBitsDifference(cell_value, 15);
         // fprintf(stdout, "cell[%d][%d] has %d neighbors\n", row, col, neighbors);
-        string walls = intToBinary(cell_value);
-        cout << walls << " - " << neighbors << " neighbors - walls ";
+        string walls = intToBinary(cell_value);        
     
         // N
         if(walls[0] == '0') {
             matrix[cell][cell - gridWidth] = 1.0 / neighbors;
-        } else cout << "N";
+        }
 
         // S
         if(walls[1] == '0') {
             matrix[cell][cell + gridWidth] = 1.0 / neighbors;
-        } else cout << "S";
+        }
 
         // W
         if(walls[2] == '0') {
             matrix[cell][cell - 1] = 1.0 / neighbors;
-        } else cout << "W";
+        }
 
         // E
         if(walls[3] == '0') {
             matrix[cell][cell + 1] = 1.0 / neighbors;
-        } else cout << "E";
-        cout << endl;
-    }
-    cout << endl;
-    printMatrix(matrix, "Transitivity Matrix");
+        }        
+    }    
     return transposeMatrix(matrix);
 }
 
