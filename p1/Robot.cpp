@@ -2,14 +2,52 @@
 
 Robot::Robot(int argc, char* argv[]) 
 : possible_positions(0) {
-    sensory_error = atof(argv[2]);    
+    
+    // Stores sensory error parameter
+    sensory_error = atof(argv[2]);   
+
+    // Calculates "diff values" (don't know the correct name)
     diff_values = calculate_diff_values(sensory_error);
+
+    // Stores every observation parameter received
     for(int i = 3; i < argc; i++) {
         addObservation(argv[i]);
     }
+
+    // Contructs 2d grid vector from input file
     buildGrid(argv[1]);
-    printVector(diff_values, "Diffs");
-    buildMatrix();
+    
+    // Creates translated transitivity matrix
+    transitivity_matrix = buildMatrix();    
+    
+    // Creates initial joint prediction matrix
+    vector<double>* j = initialJointPredictionMatrix(grid);
+    // vector<vector<double> >
+
+    // Calculates the joint prediction probabilities at time 1
+    j = multiply(transitivity_matrix, *j);
+
+    // Initializes diagonal sensory probabilities matrix
+    vector<vector<double> > sp0 = sensoryProbabilities(NSWE(observations[0]));    
+
+    // Initializes matrix Z from sensory probabilties from observation 0
+    vector<vector<double> > Z = multiply2(transitivity_matrix, sp0);
+
+    // Recalculates joint prediction probabilities
+    j = multiply(Z, *j);
+    
+
+    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[1]));
+    printMatrix(sp1, "Sensory Probabilities for Observation 1");
+
+    vector<double>* Z2 = multiply(sp1, *j);
+    printVector(*Z2, "Matrix Z");
+    
+    answer = sumVector(*Z2);
+    cout << "\nSum: " << answer << endl;
+    vector<double> normal = normalize(*Z2);
+    printVector(normal, "Result");
+    showAnswer(normal);
 }
 
 void Robot::buildGrid(char* fileName) {
@@ -34,7 +72,7 @@ void Robot::buildGrid(char* fileName) {
     printGrid();    
 }
 
-void Robot::buildMatrix()
+vector<vector<double> > Robot::buildMatrix()
 {
     int gridWidth = grid[0].size();
     int gridHeight = grid.size();
@@ -81,28 +119,7 @@ void Robot::buildMatrix()
     }
     cout << endl;
     printMatrix(matrix, "Transitivity Matrix");
-    vector<vector<double> > matrix2 = transposeMatrix(matrix);
-    printMatrix(matrix2, "Translated Transitivity Matrix");
-    transitivity_matrix = matrix2;
-    vector<double> j0 = initialJointPredictionMatrix(grid);
-    printVector(j0, "JO");    
-    vector<double> j1 = multiply(transitivity_matrix, j0);
-    printVector(j1, "J1");
-    vector<vector<double> > sp0 = sensoryProbabilities(NSWE(observations[0]));
-    printMatrix(sp0, "Sensory Probabilities for Observation 0");
-    vector<vector<double> > Z = multiply2(matrix2, sp0);
-    printMatrix(Z, "Matrix Z");
-    vector<double> j2 = multiply(Z, j1);
-    printVector(j2, "J2");
-    vector<vector<double> > sp1 = sensoryProbabilities(NSWE(observations[1]));
-    printMatrix(sp1, "Sensory Probabilities for Observation 1");
-    vector<double> Z2 = multiply(sp1, j2);
-    printVector(Z2, "Matrix Z");
-    answer = sumVector(Z2);
-    cout << "\nSum: " << answer << endl;
-    vector<double> normal = normalize(Z2);
-    printVector(normal, "Result");
-    showAnswer(normal);
+    return transposeMatrix(matrix);
 }
 
 void Robot::printGrid() {
@@ -180,15 +197,15 @@ vector<vector<double> > Robot::transposeMatrix(vector<vector<double> > matrix1) 
     return matrix2;
 }
 
-vector<double> Robot::initialJointPredictionMatrix(vector<vector<int> > grid) {    
-    vector<double> result;
+vector<double>* Robot::initialJointPredictionMatrix(vector<vector<int> > grid) {    
+    vector<double>* result = new vector<double>;
     for(int i = 0; i < grid.size(); i++) {
         for(int j = 0; j < grid[0].size(); j++) {
             vector<double> single;
             if(grid[i][j] != 15) {
-                result.push_back(1.0 / possible_positions);
+                result->push_back(1.0 / possible_positions);
             } else {
-                result.push_back(0.0);
+                result->push_back(0.0);
             }
         }        
     }
@@ -218,14 +235,14 @@ void Robot::printVector(vector<double> matrix, string title) {
     cout << endl;
 }
 
-vector<double> Robot::multiply(vector<vector<double> > T, vector<double> J) {
-    vector<double> result;
+vector<double>* Robot::multiply(vector<vector<double> > T, vector<double> J) {
+    vector<double>* result = new vector<double>;
     for(int i = 0; i < T.size(); i++) {
         double sum = 0;
         for(int j = 0; j < T[i].size(); j++) {            
             sum += (T[i][j]*J[j]);
         }
-        result.push_back(sum);
+        result->push_back(sum);
     }
     return result;
 }

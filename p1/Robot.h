@@ -26,7 +26,7 @@ public:
     void printGrid();
 
     // Build matrix from grid
-    void buildMatrix();
+    vector<vector<double> > buildMatrix();
 
     // Observation helper to add values
     void addObservation(string);
@@ -53,14 +53,14 @@ public:
     vector<vector<double> > transposeMatrix(vector<vector<double> >);
 
     // Joint prediction matrix
-    vector<double> initialJointPredictionMatrix(vector<vector<int> >);
+    vector<double>* initialJointPredictionMatrix(vector<vector<int> >);
 
     // Print matrix
     void printMatrix(vector<vector<double> >, string);
 
     void printVector(vector<double>, string);
 
-    vector<double> multiply(vector<vector<double> >, vector<double>);
+    vector<double>* multiply(vector<vector<double> >, vector<double>);
 
     vector<int> inlineGrid();
 
