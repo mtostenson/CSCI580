@@ -80,7 +80,7 @@ public:
     vector<double> normalize(vector<double>);
 
     // Outputs the result
-    void showAnswer(vector<double>);
+    void showAnswer(vector<double>, char*);
 
 private:
 

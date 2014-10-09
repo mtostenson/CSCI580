@@ -46,7 +46,7 @@ Robot::Robot(int argc, char* argv[])
     
     vector<double> normal = normalize(*Z2);    
     
-    showAnswer(normal);
+    showAnswer(normal, argv[1]);
 }
 
 void Robot::buildGrid(char* fileName) {
@@ -294,7 +294,7 @@ vector<double> Robot::normalize(vector<double> input) {
     return result;
 }
 
-void Robot::showAnswer(vector<double> normalized) {
+void Robot::showAnswer(vector<double> normalized, char* filename) {
     double largest = 0.0;
     int largest_index;
     for(int i = 0; i < normalized.size(); i++) {
@@ -304,5 +304,6 @@ void Robot::showAnswer(vector<double> normalized) {
         }
     }
     int gridWidth = grid[0].size();
-    cout << "(" << largest_index / gridWidth << ", " << largest_index % gridWidth<< ") " << largest << endl;
+    cout << "\nOutput for " << filename << ":\n";
+    cout << "\n(" << largest_index / gridWidth << ", " << largest_index % gridWidth<< ") " << largest << endl << endl;
 }
