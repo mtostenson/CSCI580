@@ -194,7 +194,6 @@ vector<double>* Robot::initialJointPredictionMatrix(vector<vector<int> > grid) {
     vector<double>* result = new vector<double>;
     for(int i = 0; i < grid.size(); i++) {
         for(int j = 0; j < grid[0].size(); j++) {
-            vector<double> single;
             if(grid[i][j] != 15) {
                 result->push_back(1.0 / possible_positions);
             } else {
