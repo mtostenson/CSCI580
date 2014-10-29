@@ -71,7 +71,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	readFile(new string(argv[4]), &original);
 	
 	// Begin
-	CEstimationMaximization EM(&observations, &transition, &sensory, &original);
+	CEstimationMaximization EM(&observations, &transition, &sensory, &original, atoi(argv[5]));
 	EM.process();
 
 	system("PAUSE");

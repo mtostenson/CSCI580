@@ -12,7 +12,7 @@ using namespace std;
 class CEstimationMaximization
 {
 public:
-	CEstimationMaximization(vector<char>*, vector<vector<double> >*, vector<vector<double> >*, vector<char>*);
+	CEstimationMaximization(vector<char>*, vector<vector<double> >*, vector<vector<double> >*, vector<char>*, int);
 	~CEstimationMaximization();
 	void process();
 private:
@@ -22,7 +22,8 @@ private:
 	vector<vector<double> >* pTransition;
 	vector<vector<double> >* pSensory;
 	vector<char>* pOriginal;
-
-	double state[3];
+	int mIterations;
+	double mState[3];
+	vector<int> mBacktrack[3];
 };
 
