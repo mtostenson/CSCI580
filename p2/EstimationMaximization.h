@@ -12,12 +12,17 @@ using namespace std;
 class CEstimationMaximization
 {
 public:
-	CEstimationMaximization(vector<char>*, vector<vector<double> >*, vector<double>*, vector<char>*);
+	CEstimationMaximization(vector<char>*, vector<vector<double> >*, vector<vector<double> >*, vector<char>*);
 	~CEstimationMaximization();
+	void process();
 private:
+	double min(int);
+
 	vector<char>* pObservations;
 	vector<vector<double> >* pTransition;
-	vector<double>* pSensory;
+	vector<vector<double> >* pSensory;
 	vector<char>* pOriginal;
+
+	double state[3];
 };
 
