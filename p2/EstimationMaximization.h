@@ -15,9 +15,5 @@ public:
 	CEstimationMaximization();
 	~CEstimationMaximization();
 private:
-	void readFile(string*, vector<char>*);
-	void readFile(string*, vector<double>*);
-	void test();
-	template <typename T> void printVector(vector<T>*);
 };
 
