@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _E_M_H_
+#define _E_M_H_
 
 #include <stdio.h>
 #include <string>
@@ -12,18 +13,25 @@ using namespace std;
 class CEstimationMaximization
 {
 public:
-    CEstimationMaximization(vector<char>*, vector<vector<double> >*, vector<vector<double> >*, vector<char>*, int);
+    CEstimationMaximization(
+        vector<char>*,
+        vector<vector<double> >*,
+        vector<vector<double> >*,
+        vector<char>*,
+        int);
     ~CEstimationMaximization();
-    void process();
+    void calculateSequenceOfStates();
 private:
-    double min(int);
-
+    int charToStateInt(char&);
+    
     vector<char>* pObservations;
     vector<vector<double> >* pTransition;
     vector<vector<double> >* pSensory;
     vector<char>* pOriginal;
+    
     int mIterations;
-    double mState[3];
+    vector<double>* mState[3];
     vector<int> mBacktrack[3];
 };
 
+#endif // _E_M_H_

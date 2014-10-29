@@ -23,7 +23,8 @@ void readFile(string* pFilename, vector<char>* pDestination)
 }
 
 // Read a file of double values to a vector
-void readSensoryFile(string* pFilename, vector<vector<double> >* pDestination)
+void readSensoryFile(string* pFilename,
+    vector<vector<double> >* pDestination)
 {
     ifstream file;
     file.open(*pFilename);
@@ -38,7 +39,8 @@ void readSensoryFile(string* pFilename, vector<vector<double> >* pDestination)
 }
 
 // Read a file of double values to a 2D vector
-void readFile(string* pFilename, vector<vector<double> >* pDestination)
+void readFile(string* pFilename,
+    vector<vector<double> >* pDestination)
 {
     ifstream file;
     file.open(*pFilename);
@@ -71,8 +73,15 @@ int _tmain(int argc, _TCHAR* argv[])
     readFile(new string(argv[4]), &original);
 
     // Begin
-    CEstimationMaximization EM(&observations, &transition, &sensory, &original, atoi(argv[5]));
-    EM.process();
+    CEstimationMaximization EM
+        (
+        &observations,
+        &transition,
+        &sensory,
+        &original,
+        atoi(argv[5])
+        );
+    EM.calculateSequenceOfStates();
 
     system("PAUSE");
     return 0;
