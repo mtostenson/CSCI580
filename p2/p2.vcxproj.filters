@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{54225b2d-5081-4513-9f4d-9b23dc5e30cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\10">
+      <UniqueIdentifier>{f3654c6b-2efc-4e70-ae9f-8bb486d43e8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\100">
+      <UniqueIdentifier>{52e069cf-c393-4a70-9661-2287f91f2fa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\10000">
+      <UniqueIdentifier>{84b733ef-9607-4801-965f-a694f30134ad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+    <Text Include="observations_10.txt">
+      <Filter>Tests\10</Filter>
+    </Text>
+    <Text Include="original_10.txt">
+      <Filter>Tests\10</Filter>
+    </Text>
+    <Text Include="output_10.txt">
+      <Filter>Tests\10</Filter>
+    </Text>
+    <Text Include="output_to_screen_10.txt">
+      <Filter>Tests\10</Filter>
+    </Text>
+    <Text Include="observations_100.txt">
+      <Filter>Tests\100</Filter>
+    </Text>
+    <Text Include="original_100.txt">
+      <Filter>Tests\100</Filter>
+    </Text>
+    <Text Include="output_100.txt">
+      <Filter>Tests\100</Filter>
+    </Text>
+    <Text Include="output_to_screen_100.txt">
+      <Filter>Tests\100</Filter>
+    </Text>
+    <Text Include="observations_10000.txt">
+      <Filter>Tests\10000</Filter>
+    </Text>
+    <Text Include="original_10000.txt">
+      <Filter>Tests\10000</Filter>
+    </Text>
+    <Text Include="output_10000.txt">
+      <Filter>Tests\10000</Filter>
+    </Text>
+    <Text Include="output_to_screen_10000.txt">
+      <Filter>Tests\10000</Filter>
+    </Text>
+    <Text Include="transition_10.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="sensory.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="sensory_10.txt">
+      <Filter>Tests</Filter>
+    </Text>
+    <Text Include="transition.txt">
+      <Filter>Tests</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EstimationMaximization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="p2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EstimationMaximization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
