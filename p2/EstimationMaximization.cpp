@@ -69,13 +69,14 @@ void CEstimationMaximization::getMostProbablePath()
         if(i == 0 || pBacktracking[i]->back() < pBacktracking[iter]->back())
         {
             iter = i;
+            path->push_back(stateIntToChar(iter));
         }
     }
     
     for(int i = pBacktracking[0]->size() - 1; i >= 0; i--)
     {
-        path->push_back(stateIntToChar(iter));
         iter = pBacktracking[iter]->at(i);
+        path->insert(path->begin(), stateIntToChar(iter));
     }
     
     for(char c : *path)
