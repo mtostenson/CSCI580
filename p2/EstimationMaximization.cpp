@@ -52,7 +52,13 @@ void CEstimationMaximization::calculateViterbi()
             }
             mViterbi[j]->push_back(minimum);
             pBacktracking[j]->push_back(btValue);
-            fprintf(stdout, "bt: %d\n", btValue);
+        }
+    }
+    for(vector<int>* v : pBacktracking)
+    {
+        for(int i : *v)
+        {
+            fprintf(stdout, "%c ", stateIntToChar(i));
         }
         fprintf(stdout, "\n");
     }
@@ -66,19 +72,17 @@ void CEstimationMaximization::getMostProbablePath()
     string result = "";
     for(int i = 0; i < 3; i++)
     {
-        if(i == 0 || pBacktracking[i]->back() < pBacktracking[iter]->back())
+        if(i == 0 || mViterbi[i]->back() < mViterbi[iter]->back())
         {
             iter = i;
             path->push_back(stateIntToChar(iter));
         }
-    }
-    
+    }    
     for(int i = pBacktracking[0]->size() - 1; i >= 0; i--)
     {
         iter = pBacktracking[iter]->at(i);
         path->insert(path->begin(), stateIntToChar(iter));
-    }
-    
+    }    
     for(char c : *path)
     {
         cout << c;
