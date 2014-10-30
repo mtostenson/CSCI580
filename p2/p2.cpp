@@ -81,7 +81,7 @@ int _tmain(int argc, _TCHAR* argv[])
         &original,
         atoi(argv[5])
         );
-    EM.calculateSequenceOfStates();
+    EM.calculateViterbi();
 
     system("PAUSE");
     return 0;
