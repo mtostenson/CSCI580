@@ -31,13 +31,12 @@ void CEstimationMaximization::calculateSequenceOfStates()
 {
     for(unsigned i = 0; i < pOriginal->size(); i++)
     {
-        int curStateValue = charToStateInt(pOriginal->at(i));
         for(int j = 0; j < 3; j++)
         {
             double minimum;
             for(int k = 0; k < 3; k++)
             {
-                double temp = mState[k]->at(i) + pTransition->at(curStateValue)[k];
+                double temp = mState[k]->at(i) + pTransition->at(j)[k];
                 if(k == 0 || temp < minimum)
                 {
                     minimum = temp;
@@ -45,10 +44,10 @@ void CEstimationMaximization::calculateSequenceOfStates()
             }
             if(pObservations->at(i) == 'H')
             {
-                minimum += pSensory->at(curStateValue)[0];
+                minimum += pSensory->at(j)[0];
             } else if(pObservations->at(i) == 'T')
             {
-                minimum += pSensory->at(curStateValue)[1];
+                minimum += pSensory->at(j)[1];
             }
             mState[j]->push_back(minimum);
         }
