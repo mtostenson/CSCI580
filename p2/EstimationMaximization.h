@@ -24,10 +24,14 @@ public:
     ~CEstimationMaximization();
     void calculateViterbi();
     void getMostProbablePath();
+    void calculateTransAndSens();
+
 private:
 
     int charToStateInt(char&);
     char stateIntToChar(int&);
+    int getNumTrans(int&, int&);
+    int numValInPath(int&);
 
     vector<char>* pObservations;
     vector<vector<double> >* pTransition;

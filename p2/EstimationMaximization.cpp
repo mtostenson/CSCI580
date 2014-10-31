@@ -62,7 +62,6 @@ void CEstimationMaximization::calculateViterbi()
         }
         fprintf(stdout, "\n");
     }
-    getMostProbablePath();
 }
 
 void CEstimationMaximization::getMostProbablePath()
@@ -88,6 +87,29 @@ void CEstimationMaximization::getMostProbablePath()
         cout << c;
     }
     cout << endl;
+}
+
+void CEstimationMaximization::calculateTransAndSens()
+{
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            double numerator = getNumTrans(j, i) + K;
+            double denominator = numValInPath(j) + 3*K;
+            double value = numerator / denominator;
+            //cout << value << " ";
+            pTransition->at(i).at(j) = -log2(value);
+        }
+    }
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            cout << pTransition->at(i).at(j) << " ";
+        }
+        cout << endl;
+    }
 }
 
 char CEstimationMaximization::stateIntToChar(int& i) {
@@ -119,4 +141,31 @@ int CEstimationMaximization::charToStateInt(char& c)
         fprintf(stderr, "Invalid char: %c\n", c);
         return -1;
     }
+}
+
+int CEstimationMaximization::getNumTrans(int &a, int &b)
+{
+    int total = 0;
+    for(unsigned i = 0; i < path->size()-1; i++)
+    {
+        if(charToStateInt(path->at(i)) == a && charToStateInt(path->at(i + 1)) == b)
+        {
+            total++;
+        }
+    }
+    return total;
+}
+
+int CEstimationMaximization::numValInPath(int& x)
+{
+    int total = 0;
+    char val = stateIntToChar(x);
+    for(int i = 0; i < path->size() - 1; i++)
+    {
+        if(path->at(i) == val)
+        {
+            total++;
+        }
+    }
+    return total;
 }
