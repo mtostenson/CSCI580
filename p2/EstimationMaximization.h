@@ -25,13 +25,16 @@ public:
     void calculateViterbi();
     void getMostProbablePath();
     void calculateTransAndSens();
-
+    void showResult();
 private:
 
     int charToStateInt(char&);
     char stateIntToChar(int&);
+    int sensoryToInt(char&);
     int getNumTrans(int&, int&);
     int numValInPath(int&);
+    int sensoryMatches(int&, int&);
+    int numValInObs(int&);
 
     vector<char>* pObservations;
     vector<vector<double> >* pTransition;

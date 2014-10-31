@@ -83,7 +83,13 @@ int _tmain(int argc, _TCHAR* argv[])
         );
     EM.calculateViterbi();
     EM.getMostProbablePath();
-    EM.calculateTransAndSens();
+    for(int i = 0; i < atoi(argv[5]) + 1; i++)
+    {
+        EM.calculateTransAndSens();
+        EM.calculateViterbi();
+        EM.getMostProbablePath();
+    }
+    EM.showResult();
 
     system("PAUSE");
     return 0;

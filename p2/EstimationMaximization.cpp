@@ -12,14 +12,7 @@ CEstimationMaximization::CEstimationMaximization(
     , pSensory(sensory)
     , pOriginal(original)
     , mIterations(iterations)
-{
-    // Initialize probablitlies for all states at t0    
-    for(int i = 0; i < 3; i++)
-    {
-        mViterbi[i] = new vector<double>();
-        mViterbi[i]->push_back(log2(1.0 / 3.0)*(-1));
-        pBacktracking[i] = new vector<int>();
-    }    
+{  
 }
 
 CEstimationMaximization::~CEstimationMaximization()
@@ -28,6 +21,14 @@ CEstimationMaximization::~CEstimationMaximization()
 
 void CEstimationMaximization::calculateViterbi()
 {
+    // Initialize probablitlies for all states at t0    
+    for(int i = 0; i < 3; i++)
+    {
+        delete mViterbi[i];
+        mViterbi[i] = new vector<double>();
+        mViterbi[i]->push_back(log2(1.0 / 3.0)*(-1));
+        pBacktracking[i] = new vector<int>();
+    }
     for(unsigned i = 0; i < pOriginal->size(); i++)
     {
         for(int j = 0; j < 3; j++)
@@ -51,8 +52,10 @@ void CEstimationMaximization::calculateViterbi()
                 minimum += pSensory->at(j)[1];
             }
             mViterbi[j]->push_back(minimum);
+            fprintf(stdout, "%f ", minimum);
             pBacktracking[j]->push_back(btValue);
         }
+        fprintf(stdout, "\n");
     }
     for(vector<int>* v : pBacktracking)
     {
@@ -66,6 +69,7 @@ void CEstimationMaximization::calculateViterbi()
 
 void CEstimationMaximization::getMostProbablePath()
 {
+    delete path;
     path = new vector<char>();
     int iter;
     string result = "";
@@ -102,14 +106,61 @@ void CEstimationMaximization::calculateTransAndSens()
             pTransition->at(i).at(j) = -log2(value);
         }
     }
+    //for(int i = 0; i < 3; i++)
+    //{
+    //    for(int j = 0; j < 3; j++)
+    //    {
+    //        cout << pTransition->at(i).at(j) << " ";
+    //    }
+    //    cout << endl;
+    //}
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 2; j++)
+        {
+            double numerator = sensoryMatches(i, j) + K;
+            double denominator = numValInPath(i) + 2*K;
+            double value = numerator / denominator;
+            pSensory->at(i).at(j) = -log2(value);
+        }
+    }
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 2; j++)
+        {
+            cout << pSensory->at(i).at(j) << " ";
+        }
+        cout << endl;
+    }
+}
+
+void CEstimationMaximization::showResult()
+{
+    int matches = 0;
+    for(unsigned i = 0; i < pOriginal->size(); i++)
+    {
+        if(pOriginal->at(i) == path->at(i+1))
+        {
+            matches++;
+        }
+    }
+    printf("\nTransition probabilities learned:\n");
     for(int i = 0; i < 3; i++)
     {
         for(int j = 0; j < 3; j++)
         {
-            cout << pTransition->at(i).at(j) << " ";
+            printf("     %f", pow(2, -pTransition->at(i).at(j)));
         }
-        cout << endl;
+        printf("\n");
     }
+
+    printf("\nSensory probabilities learned:\n");
+    for(int i = 0; i < 3; i++)
+    {
+        printf("     %f\n", pow(2, -pSensory->at(i).at(0)));
+    }
+
+    printf("\nAccuracy:\n%f\%\n", floor(((double)matches/(double)(pOriginal->size())*100)));
 }
 
 char CEstimationMaximization::stateIntToChar(int& i) {
@@ -143,6 +194,19 @@ int CEstimationMaximization::charToStateInt(char& c)
     }
 }
 
+int CEstimationMaximization::sensoryToInt(char &sensory)
+{
+    if(sensory == 'H') 
+    {
+        return 0;
+    }
+    else if(sensory == 'T')
+    {
+        return 1;
+    }
+    return -1;
+}
+
 int CEstimationMaximization::getNumTrans(int &a, int &b)
 {
     int total = 0;
@@ -160,9 +224,36 @@ int CEstimationMaximization::numValInPath(int& x)
 {
     int total = 0;
     char val = stateIntToChar(x);
-    for(int i = 0; i < path->size() - 1; i++)
+    for(unsigned i = 0; i < path->size() - 1; i++)
     {
         if(path->at(i) == val)
+        {
+            total++;
+        }
+    }
+    return total;
+}
+
+int CEstimationMaximization::sensoryMatches(int &state, int &sensory)
+{
+    int matches = 0;
+    for(unsigned i = 0; i < pObservations->size(); i++)
+    {
+        if(path->at(i + 1) == stateIntToChar(state) && 
+        sensoryToInt(pObservations->at(i)) == sensory)
+        {
+            matches++;
+        }
+    }
+    return matches;
+}
+
+int CEstimationMaximization::numValInObs(int& sensory)
+{
+    int total = 0;
+    for(char c : *pObservations)
+    {
+        if(sensoryToInt(c) == sensory)
         {
             total++;
         }
