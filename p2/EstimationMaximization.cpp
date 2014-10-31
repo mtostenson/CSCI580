@@ -5,13 +5,11 @@ CEstimationMaximization::CEstimationMaximization(
     vector<char>* observations,
     vector<vector<double> >* transition,
     vector<vector<double> >* sensory,
-    vector<char>* original,
-    int iterations)
+    vector<char>* original)
     : pObservations(observations)
     , pTransition(transition)
     , pSensory(sensory)
     , pOriginal(original)
-    , mIterations(iterations)
 {  
 }
 
@@ -21,7 +19,6 @@ CEstimationMaximization::~CEstimationMaximization()
 
 void CEstimationMaximization::calculateViterbi()
 {
-    // Initialize probablitlies for all states at t0    
     for(int i = 0; i < 3; i++)
     {
         delete mViterbi[i];
@@ -121,7 +118,7 @@ void CEstimationMaximization::showResult()
         for(int j = 0; j < 3; j++)
         {
             stringstream ss;
-            ss << fixed << setprecision(6) << setw(12) << pow(2, -pTransition->at(i).at(j)) << " ";
+            ss << setprecision(6) << fixed << setw(12) << pow(2, -pTransition->at(i).at(j)) << " ";
             cout << ss.str();
             myfile << ss.str();
         }

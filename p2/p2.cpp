@@ -78,12 +78,13 @@ int _tmain(int argc, _TCHAR* argv[])
         &observations,
         &transition,
         &sensory,
-        &original,
-        atoi(argv[5])
+        &original
         );
 
     EM.calculateViterbi();
     EM.getMostProbablePath();
+
+    // Iterate
     for(int i = 0; i < atoi(argv[5]); i++)
     {
         EM.calculateTransAndSens();
