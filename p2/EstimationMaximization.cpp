@@ -104,6 +104,8 @@ void CEstimationMaximization::calculateTransAndSens()
 
 void CEstimationMaximization::showResult()
 {
+    ofstream myfile;
+    myfile.open("output.txt");
     int matches = 0;
     for(unsigned i = 0; i < pOriginal->size(); i++)
     {
@@ -112,24 +114,40 @@ void CEstimationMaximization::showResult()
             matches++;
         }
     }
-    printf("\nTransition probabilities learned:\n");
+    cout << "\nTransition probabilities learned:\n";
+    myfile << "\nTransition probabilities learned:\n";
     for(int i = 0; i < 3; i++)
     {
         for(int j = 0; j < 3; j++)
         {
-            printf("     %f", pow(2, -pTransition->at(i).at(j)));
+            stringstream ss;
+            ss << fixed << setprecision(6) << setw(12) << pow(2, -pTransition->at(i).at(j)) << " ";
+            cout << ss.str();
+            myfile << ss.str();
         }
-        printf("\n");
+        myfile << "\n";
+        cout << "\n";
     }
 
-    printf("\nSensory probabilities learned:\n");
+    cout << "\nSensory probabilities learned:\n";
+    myfile << "\nSensory probabilities learned:\n";
     for(int i = 0; i < 3; i++)
     {
-        printf("     %f\n", pow(2, -pSensory->at(i).at(0)));
+        stringstream ss;
+        ss << fixed << setprecision(6) << setw(12) << pow(2, -pSensory->at(i).at(0)) << "\n";
+        cout << ss.str();
+        myfile << ss.str();
     }
-    cout.precision(4);
-    cout << "\nAccuracy:\n" << ((double)matches)/((double)pOriginal->size())*100 << "%\n";
-    //printf("\nAccuracy:\n%f\%\n", floor(((double)matches/(double)(pOriginal->size())*100)));
+    stringstream ss;
+    double result = ((double)matches)/((double)pOriginal->size())*100.0;
+    ss << fixed << setprecision(2) << "\nAccuracy:\n" << result << "%\n";
+    cout << ss.str() << "\n";
+    myfile << ss.str() << "\nSequence of States:\n";
+    for(char c : *path)
+    {
+        myfile << c;
+    }
+    myfile.close();
 }
 
 char CEstimationMaximization::stateIntToChar(int& i) {
