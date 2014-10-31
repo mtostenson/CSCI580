@@ -47,9 +47,7 @@ private:
     vector<int>* pBacktracking[3];
     vector<int>* minPath();
     
-    vector<char>* path;
-
-    double mTrans[3][3];
+    vector<char>* path;    
 };
 
 #endif // _E_M_H_

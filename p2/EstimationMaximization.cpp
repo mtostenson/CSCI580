@@ -52,18 +52,8 @@ void CEstimationMaximization::calculateViterbi()
                 minimum += pSensory->at(j)[1];
             }
             mViterbi[j]->push_back(minimum);
-            fprintf(stdout, "%f ", minimum);
             pBacktracking[j]->push_back(btValue);
         }
-        fprintf(stdout, "\n");
-    }
-    for(vector<int>* v : pBacktracking)
-    {
-        for(int i : *v)
-        {
-            fprintf(stdout, "%c ", stateIntToChar(i));
-        }
-        fprintf(stdout, "\n");
     }
 }
 
@@ -78,19 +68,14 @@ void CEstimationMaximization::getMostProbablePath()
         if(i == 0 || mViterbi[i]->back() < mViterbi[iter]->back())
         {
             iter = i;
-            path->push_back(stateIntToChar(iter));
         }
     }    
+    path->push_back(stateIntToChar(iter));
     for(int i = pBacktracking[0]->size() - 1; i >= 0; i--)
     {
         iter = pBacktracking[iter]->at(i);
         path->insert(path->begin(), stateIntToChar(iter));
     }    
-    for(char c : *path)
-    {
-        cout << c;
-    }
-    cout << endl;
 }
 
 void CEstimationMaximization::calculateTransAndSens()
@@ -101,19 +86,10 @@ void CEstimationMaximization::calculateTransAndSens()
         {
             double numerator = getNumTrans(j, i) + K;
             double denominator = numValInPath(j) + 3*K;
-            double value = numerator / denominator;
-            //cout << value << " ";
+            double value = numerator / denominator;     
             pTransition->at(i).at(j) = -log2(value);
         }
     }
-    //for(int i = 0; i < 3; i++)
-    //{
-    //    for(int j = 0; j < 3; j++)
-    //    {
-    //        cout << pTransition->at(i).at(j) << " ";
-    //    }
-    //    cout << endl;
-    //}
     for(int i = 0; i < 3; i++)
     {
         for(int j = 0; j < 2; j++)
@@ -123,14 +99,6 @@ void CEstimationMaximization::calculateTransAndSens()
             double value = numerator / denominator;
             pSensory->at(i).at(j) = -log2(value);
         }
-    }
-    for(int i = 0; i < 3; i++)
-    {
-        for(int j = 0; j < 2; j++)
-        {
-            cout << pSensory->at(i).at(j) << " ";
-        }
-        cout << endl;
     }
 }
 
@@ -159,8 +127,9 @@ void CEstimationMaximization::showResult()
     {
         printf("     %f\n", pow(2, -pSensory->at(i).at(0)));
     }
-
-    printf("\nAccuracy:\n%f\%\n", floor(((double)matches/(double)(pOriginal->size())*100)));
+    cout.precision(4);
+    cout << "\nAccuracy:\n" << ((double)matches)/((double)pOriginal->size())*100 << "%\n";
+    //printf("\nAccuracy:\n%f\%\n", floor(((double)matches/(double)(pOriginal->size())*100)));
 }
 
 char CEstimationMaximization::stateIntToChar(int& i) {
