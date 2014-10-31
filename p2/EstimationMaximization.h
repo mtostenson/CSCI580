@@ -48,6 +48,8 @@ private:
     vector<int>* minPath();
     
     vector<char>* path;
+
+    double mTrans[3][3];
 };
 
 #endif // _E_M_H_

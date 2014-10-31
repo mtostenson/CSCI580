@@ -13,7 +13,7 @@ Sensory probabilities learned:
 Accuracy:
 70.00%
 
-
+ 
 
 
 elenah@bass $ cat transition_10.txt
