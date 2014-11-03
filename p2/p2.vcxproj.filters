@@ -25,6 +25,9 @@
     <Filter Include="Tests\10000">
       <UniqueIdentifier>{84b733ef-9607-4801-965f-a694f30134ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tests\1000">
+      <UniqueIdentifier>{6261fde0-28f0-4e29-b0cb-aac726b07880}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -75,6 +78,15 @@
     </Text>
     <Text Include="transition.txt">
       <Filter>Tests</Filter>
+    </Text>
+    <Text Include="obs_1000.txt">
+      <Filter>Tests\1000</Filter>
+    </Text>
+    <Text Include="orig_1000.txt">
+      <Filter>Tests\1000</Filter>
+    </Text>
+    <Text Include="output_1000.txt">
+      <Filter>Tests\1000</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

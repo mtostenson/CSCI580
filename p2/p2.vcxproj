@@ -79,11 +79,14 @@
     <Text Include="observations_10.txt" />
     <Text Include="observations_100.txt" />
     <Text Include="observations_10000.txt" />
+    <Text Include="obs_1000.txt" />
     <Text Include="original_10.txt" />
     <Text Include="original_100.txt" />
     <Text Include="original_10000.txt" />
+    <Text Include="orig_1000.txt" />
     <Text Include="output_10.txt" />
     <Text Include="output_100.txt" />
+    <Text Include="output_1000.txt" />
     <Text Include="output_10000.txt" />
     <Text Include="output_to_screen_10.txt" />
     <Text Include="output_to_screen_100.txt" />
