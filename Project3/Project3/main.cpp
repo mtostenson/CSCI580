@@ -14,29 +14,33 @@ int main(int argc, char* argv[])
         printf("[!] Not enough arguments\n");
     }    
     
-    ANN ann;
+    ANN* ann = new ANN();
 
     // train_input
-    ann.setTrainInput(FileIO::fileToVec2(argv[1]));
+    ann->setTrainInput(FileIO::fileToVec2(argv[1]));
 
     // train_output
-    ann.setTrainOutput(FileIO::fileToVec(argv[2]));
+    ann->setTrainOutput(FileIO::fileToVec(argv[2]));
 
     // test_input
-    ann.setTestInput(FileIO::fileToVec2(argv[3]));
+    ann->setTestInput(FileIO::fileToVec2(argv[3]));
 
     // test_output.txt
-    ann.setTestOutput(FileIO::fileToVec(argv[4]));
+    ann->setTestOutput(FileIO::fileToVec(argv[4]));
 
     // structure.txt
-    ann.setStructure(FileIO::fileToVec(argv[5]));
+    ann->setStructure(FileIO::fileToVec(argv[5]));
 
     // weights.txt
-    ann.setWeights(FileIO::fileToVec2(argv[6]));
+    ann->setWeights(FileIO::fileToVec2(argv[6]));
 
     // k
-    ann.setK(atoi(argv[7]));
+    ann->setK(atoi(argv[7]));
+
+    // Set first layer
+    ann->run();
 
     // Exit
     return 0;
+
 }
