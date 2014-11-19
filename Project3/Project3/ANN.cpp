@@ -5,16 +5,19 @@ void ANN::run()
     prepareNN();
 
     // Main loop
-    for(int i = 0; i < train_input->size(); i++)
+    for(int h = 0; h < k; h++)
     {
-        setInputLayer(i, train_input);
-        for(int i = 1; i < structure->size(); i++)
+        for(int i = 0; i < (int)train_input->size(); i++)
         {
-            for(int j = 0; j < neural_network[i].size(); j++)
+            setInputLayer(i, train_input);
+            for(int i = 1; i < (int)structure->size(); i++)
             {
-                neural_network[i][j] = activation(i, j);
+                for(int j = 0; j < (int)neural_network[i].size(); j++)
+                {
+                    neural_network[i][j] = activation(i, j);
+                }
             }
-        }
+        }        
     }
 }
 
@@ -22,10 +25,11 @@ void ANN::run()
 void ANN::prepareNN()
 {
     neural_network.resize(structure->size());
-    for(int i = 0; i < neural_network.size(); i++)
+    for(unsigned i = 0; i < neural_network.size(); i++)
     {
         neural_network[i].resize(structure->at(i));
     }
+    error.resize(neural_network.back().size());
 }
 
 void ANN::setInputLayer(int pIndex, vector<vector<double> >* pSource)

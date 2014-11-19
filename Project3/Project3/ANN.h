@@ -22,6 +22,7 @@ public:
     void setStructure(vector<int>* pVec) { structure = pVec; }
     void setWeights(vector<vector<double> >* pVec) { weights = pVec; }
     void setK(int pK) { k = pK; }
+    void setOutputEncoding(vector<vector<double> > pVec) { output_encoding = pVec; }
 
 private:    
 
@@ -41,8 +42,12 @@ private:
     vector<int>*             structure;
     vector<vector<double> >* weights;
     int                      k;
+    vector<vector<double> >  output_encoding;
 
     // Holder of array values
     vector<vector<double> > neural_network;
+
+    // Error vector
+    vector<double> error;
 };
 
