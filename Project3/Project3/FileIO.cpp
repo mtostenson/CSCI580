@@ -1,8 +1,8 @@
 #include "FileIO.h"
 
-vector<vector<double>* >* FileIO::fileToVec2(char* pFilename)
+vector<vector<double> >* FileIO::fileToVec2(char* pFilename)
 {
-    vector<vector<double>* >* result = new vector<vector<double >* >();
+    vector<vector<double> >* result = new vector<vector<double > >();
     ifstream file;
     file.open(pFilename);
     string input;
@@ -15,7 +15,7 @@ vector<vector<double>* >* FileIO::fileToVec2(char* pFilename)
         {
             row.push_back(atof(value.c_str()));
         }
-        result->push_back(&row);
+        result->push_back(row);
     }
     file.close();
     return result;
