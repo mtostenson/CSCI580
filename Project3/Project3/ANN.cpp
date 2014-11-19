@@ -17,7 +17,15 @@ void ANN::run()
                     neural_network[i][j] = activation(i, j);
                 }
             }
-        }        
+
+            for(int j = 0; j < neural_network.back().size(); j++)
+            {
+                double aj = neural_network.back()[j];
+                double yj = output_encoding[train_output->at(i)][j];
+                error.back()[j] = aj*(1 - aj)*(yj - aj);
+            }
+
+        }   
     }
 }
 
@@ -25,11 +33,12 @@ void ANN::run()
 void ANN::prepareNN()
 {
     neural_network.resize(structure->size());
+    error.resize(structure->size());
     for(unsigned i = 0; i < neural_network.size(); i++)
     {
         neural_network[i].resize(structure->at(i));
-    }
-    error.resize(neural_network.back().size());
+        error[i].resize(structure->at(i));
+    }    
 }
 
 void ANN::setInputLayer(int pIndex, vector<vector<double> >* pSource)

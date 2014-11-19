@@ -48,6 +48,6 @@ private:
     vector<vector<double> > neural_network;
 
     // Error vector
-    vector<double> error;
+    vector<vector<double> > error;
 };
 
