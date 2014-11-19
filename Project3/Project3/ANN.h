@@ -21,7 +21,7 @@ public:
     void setTestOutput(vector<int>* pVec) { test_output = pVec; }
     void setStructure(vector<int>* pVec) { structure = pVec; }
     void setWeights(vector<vector<double> >* pVec) { weights = pVec; }
-    void setK(int pK) { k = pK; }
+    void setK(int pIterations) { iterations = pIterations; }
     void setOutputEncoding(vector<vector<double> > pVec) { output_encoding = pVec; }
 
 private:    
@@ -37,6 +37,9 @@ private:
     // Returns weight index buffer
     int getIndexBuffer(int&);
 
+    // Returns which layer weight row lives
+    int layerFromWeightRow(int& pIndex);
+
     // Data structures
     vector<vector<double> >* train_input;
     vector<int>*             train_output;
@@ -44,7 +47,7 @@ private:
     vector<int>*             test_output;
     vector<int>*             structure;
     vector<vector<double> >* weights;
-    int                      k;
+    int                      iterations;
     vector<vector<double> >  output_encoding;
 
     // Holder of array values

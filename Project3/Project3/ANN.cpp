@@ -5,7 +5,7 @@ void ANN::run()
     prepareNN();
 
     // h: total # of iterations
-    for(int h = 0; h < k; h++)
+    for(int h = 0; h < iterations; h++)
     {
         // i: number of input lines
         for(int i = 0; i < (int)train_input->size(); i++)
@@ -33,7 +33,7 @@ void ANN::run()
 
             // Inner layer errors
             // j: number of layers
-            for(int j = neural_network.size() - 2; j > 0; j--)
+            for(int j = neural_network.size() - 2; j >= 0; j--)
             {
                 // k: number of nodes in layer
                 for(int k = 0; k < neural_network[j].size(); k++)
@@ -44,7 +44,7 @@ void ANN::run()
                     for(int l = 0; l < structure->at(j+1); l++)
                     {
                         int indexBuffer = getIndexBuffer(j);
-                        sum += error[j][k]*weights->at(indexBuffer + k)[l];
+                        sum += error[j + 1][l]*weights->at(indexBuffer + k)[l];
                     }
                     double ai = neural_network[j][k];
                     error[j][k] = ai*(1-ai)*sum;
@@ -57,7 +57,12 @@ void ANN::run()
                 // k: number of elements in current weight table row
                 for(int k = 0; k < weights->at(j).size(); k++)
                 {
-                    weights->at(j)[k] = weights->at(j)[k] + (ALPHA*neural_network[j][k]*error[j][k]);
+                    int layer = layerFromWeightRow(j);
+
+                    double wPrev = weights->at(j)[k];
+                    double ai = neural_network[layerFromWeightRow(j)][k];
+                    double dj = error[layer][k];
+                    weights->at(j)[k] = wPrev + (ALPHA * ai * dj);
                 }
             }
         }   
@@ -104,4 +109,12 @@ int ANN::getIndexBuffer(int& pLayer)
         indexBuffer += structure->at(i);
     }
     return indexBuffer;
+}
+
+int ANN::layerFromWeightRow(int& pRow)
+{
+    int sum = 0;
+    int index = 0;
+    for(; pRow < sum; index++, sum += structure->at(index));
+    return index;
 }
