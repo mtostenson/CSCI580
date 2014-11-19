@@ -6,7 +6,7 @@
 
 using namespace std;
 
-#define ALPHA = 0.1
+#define ALPHA 0.1
 
 class ANN
 {
@@ -33,6 +33,9 @@ private:
 
     // Activation function
     double activation(int&, int&);
+
+    // Returns weight index buffer
+    int getIndexBuffer(int&);
 
     // Data structures
     vector<vector<double> >* train_input;
