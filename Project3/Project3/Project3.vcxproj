@@ -76,6 +76,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileIO.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileIO.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="structure2.txt" />
+    <Text Include="test_input2.txt" />
+    <Text Include="test_output2.txt" />
+    <Text Include="train_input2.txt" />
+    <Text Include="train_output2.txt" />
+    <Text Include="weights2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

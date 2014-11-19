@@ -14,4 +14,37 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="train_input2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="train_output2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test_input2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="test_output2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="structure2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="weights2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
