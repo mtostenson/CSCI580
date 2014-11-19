@@ -5,11 +5,13 @@
 
 #define ALPHA 0.01f
 
+using namespace std;
+
 // Helper methods
 double dotProduct(vector<int>& a, vector<double>& b)
 {
     double result = 0;
-    for(int i = 0; i < a.size(); i++)
+    for(int i = 0; i < a.size()-1; i++)
     {
         result += a[i]* b[i];
     }
@@ -50,35 +52,25 @@ int _tmain(int argc, _TCHAR* argv[])
     file.close();
 
     // Add dummy attribute
-    for(int i = 0; i < input.size(); i++)
+    for(int x = 0; x < input.size(); x++)
     {
-        input[i].insert(input[i].begin(), 1);
+        input[x].insert(input[x].begin(), 1);
     }
 
     // Set initial weights
-    vector<vector<double> > w(input.size());
-    for(int i = 0; i < input.size(); i++)
-    {
-        for(int j = 0; j < 4; j++)
-        {
-            w[i].push_back(1);
-        }
-    }
+    vector<double> w({1,1,1,1});
 
-    // Loop 10 times    
-    vector<double> h(input.size());
-    for (int i = 0; i < 10; i++)
+    for(int count = 0; count < 10; count++)
     {
-        for(int j = 0; j < input.size(); j++)
+        for(int i = 0; i < input.size(); i++)
         {
-            h[j] = 1 / (1 + exp(-dotProduct(input[j], w[j])));
+            double hx = 1.0 / (1 + exp(-1*dotProduct(input[i], w)));
 
-            for(int k = 0; k < input[0].size(); k++)
+            for(int j = 0; j < 4; j++)
             {
-                w[j][k] = w[j][k] + ALPHA * (input[j].back() - h[j]) * h[j] * (1 - h[j]) * input[j][k];
+                w[j] = w[j] + 0.1 * (input[i].back() - hx) * hx * (1 - hx) * input[i][j];
             }
-        }       
-        
+        }
     }
 
     // Print output
