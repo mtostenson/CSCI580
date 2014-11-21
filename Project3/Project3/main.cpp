@@ -53,8 +53,8 @@ int main(int argc, char* argv[])
     };
     ann.setOutputEncoding(encoding);
 
-    // Set first layer
     ann.run();
+    ann.test();
 
     // Exit
     return 0;

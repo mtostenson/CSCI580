@@ -81,6 +81,24 @@ void ANN::run()
     }
 }
 
+void ANN::test()
+{
+    for(int i = 0; i < (int)test_input->size(); i++)
+    {
+        setInputLayer(i, test_input);
+
+        // j: number of layers
+        for(int j = 1; j < (int)structure->size(); j++)
+        {
+            // k: number of nodes in layer
+            for(int k = 0; k < (int)neural_network[j].size(); k++)
+            {
+                neural_network[j][k] = activation(j, k);
+            }
+        }
+    }
+}
+
 // Sets size of all vectors in neural network based on inputs
 void ANN::prepareNN()
 {

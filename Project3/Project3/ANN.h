@@ -13,6 +13,7 @@ class ANN
 {
 public:
     void run();
+    void test();
 
     // Setters -----------------------------------------------------------------------
     void setTrainInput(vector<vector<double> >* pVec)    { train_input = pVec; }
