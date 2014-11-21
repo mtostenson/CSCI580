@@ -67,13 +67,13 @@
     <Text Include="test_output.txt">
       <Filter>Resource Files\example</Filter>
     </Text>
-    <Text Include="structure.txt">
-      <Filter>Resource Files\example</Filter>
-    </Text>
     <Text Include="weights.txt">
       <Filter>Resource Files\example</Filter>
     </Text>
     <Text Include="ann_output.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="structure.txt">
       <Filter>Resource Files\example</Filter>
     </Text>
   </ItemGroup>

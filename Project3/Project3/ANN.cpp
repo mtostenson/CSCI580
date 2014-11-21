@@ -55,6 +55,15 @@ void ANN::run()
                 }
             }
 
+            // Calculate dummies
+            for(int j = 0; j < dummy.size(); j++)
+            {
+                for(int k = 0; k < dummy[j].size(); k++)
+                {
+                    dummy[j][k] = dummy[j][k] + (ALPHA * error[j][k]);
+                }
+            }
+
             // j: number of rows in weights
             for(int j = 0; j < weights->size(); j++)
             {
@@ -62,7 +71,6 @@ void ANN::run()
                 for(int k = 0; k < weights->at(j).size(); k++)
                 {
                     int layer = layerFromWeightRow(j);
-
                     double wPrev = weights->at(j)[k];
                     double ai = neural_network[layerFromWeightRow(j)][k];
                     double dj = error[layer][k];
