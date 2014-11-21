@@ -6,7 +6,7 @@
 
 using namespace std;
 
-#define ALPHA 0.1
+#define ALPHA 0.01
 #define DUMMY 0.01
 
 class ANN
