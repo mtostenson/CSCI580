@@ -83,6 +83,7 @@ void ANN::run()
 
 void ANN::test()
 {
+    results = new vector<int>();
     for(int i = 0; i < (int)test_input->size(); i++)
     {
         setInputLayer(i, test_input);
@@ -96,7 +97,52 @@ void ANN::test()
                 neural_network[j][k] = activation(j, k);
             }
         }
+
+        // Euclidean
+        double ED;
+        double eSum, left, right;                        
+        vector<double> distances;
+        for(int j = 0; j < structure->at(structure->size() - 1); j++)
+        {
+            eSum = left = right = 0;
+            for(int k = 0; k < structure->at(structure->size() - 1); k++)
+            {
+                left = output_encoding[j][k];
+                right = neural_network[neural_network.size() - 1][k];
+                double base = left - right;
+                eSum += pow(base, 2.0);
+            }            
+            ED = sqrt(eSum);
+            distances.push_back(ED);
+        }
+        
+        int min = 0;
+        for(int j = 0; j < distances.size(); j++)
+        {
+            if(distances[j] < distances[min] || j ==0)
+            {
+                min = j;
+            }
+        }
+        results->push_back(min);
     }
+
+    double total_correct = 0;
+    for(int i = 0; i < test_output->size(); i++)
+    {
+        if(results->at(i) == test_output->at(i))
+        {
+            total_correct += 1;
+        }
+    }
+    
+    int lastHiddenLayer = structure->size() - 2;
+    for(int i = 0; i < structure->at(lastHiddenLayer + 1); i++)
+    {
+        printf("%f\n", weights->at(errorBuffer(lastHiddenLayer))[i]);
+    }
+
+    printf("\n%f%%\n", (total_correct / test_output->size())*100);
 }
 
 // Sets size of all vectors in neural network based on inputs

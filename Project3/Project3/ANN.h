@@ -53,5 +53,6 @@ private:
     vector<vector<double> >  neural_network;
     vector<vector<double> >  dummy;    
     vector<vector<double> >  error;
+    vector<int>*    results;
 };
 
