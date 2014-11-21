@@ -39,12 +39,16 @@ void ANN::run()
                 for(int k = 0; k < neural_network[j].size(); k++)
                 {
                     double sum = 0;
+                    double left = 0;
+                    double right = 0;
 
                     // l: number of nodes in next layer
                     for(int l = 0; l < structure->at(j+1); l++)
                     {
-                        int indexBuffer = getIndexBuffer(j);
-                        sum += error[j + 1][l]*weights->at(indexBuffer + k)[l];
+                        int buf = errorBuffer(j);
+                        left = error[j+1][l];
+                        right = weights->at(buf + k)[l]; // J WAS INDEXBUFFER
+                        sum += left*right;
                     }
                     double ai = neural_network[j][k];
                     error[j][k] = ai*(1-ai)*sum;
@@ -78,7 +82,17 @@ void ANN::prepareNN()
     {
         neural_network[i].resize(structure->at(i));
         error[i].resize(structure->at(i));
-    }    
+    }
+
+    for(int i = 0; i < neural_network.size(); i++)
+    {
+        vector<double> row;
+        for(int j = 0; j < neural_network[i].size(); j++)
+        {
+            row.push_back(DUMMY);
+        }
+        dummy.push_back(row);
+    }
 }
 
 // Sets neural network input layer to vector from input file
@@ -90,8 +104,8 @@ void ANN::setInputLayer(int pIndex, vector<vector<double> >* pSource)
 // Runs activation algorithm on a neuron
 double ANN::activation(int& pLayer, int& pNeuron)
 {
-    int indexBuffer = getIndexBuffer(pLayer);
-    double sum = 0.0;
+    int indexBuffer = activationBuffer(pLayer);
+    double sum = dummy[pLayer][pNeuron];
     for(int i = 0; i < structure->at(pLayer-1); i++)
     {
         sum += neural_network[pLayer-1].at(i) * 
@@ -101,7 +115,7 @@ double ANN::activation(int& pLayer, int& pNeuron)
 }
 
 // Calculates offset value for weights values
-int ANN::getIndexBuffer(int& pLayer)
+int ANN::activationBuffer(int pLayer)
 {
     int indexBuffer = 0;
     for(int i = 0; i < pLayer-1; i++)
@@ -109,6 +123,16 @@ int ANN::getIndexBuffer(int& pLayer)
         indexBuffer += structure->at(i);
     }
     return indexBuffer;
+}
+
+int ANN::errorBuffer(int pLayer)
+{
+    int offset = 0;
+    for(int i = 0; i < pLayer; i++)
+    {
+        offset += structure->at(i);
+    }
+    return offset;
 }
 
 int ANN::layerFromWeightRow(int& pRow)

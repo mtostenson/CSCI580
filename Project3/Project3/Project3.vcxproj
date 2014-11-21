@@ -85,11 +85,18 @@
     <ClInclude Include="FileIO.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="ann_output.txt" />
+    <Text Include="structure.txt" />
     <Text Include="structure2.txt" />
+    <Text Include="test_input.txt" />
     <Text Include="test_input2.txt" />
+    <Text Include="test_output.txt" />
     <Text Include="test_output2.txt" />
+    <Text Include="train_input.txt" />
     <Text Include="train_input2.txt" />
+    <Text Include="train_output.txt" />
     <Text Include="train_output2.txt" />
+    <Text Include="weights.txt" />
     <Text Include="weights2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

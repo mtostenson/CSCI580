@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\example">
+      <UniqueIdentifier>{cbeaba54-ad21-405d-98bb-48dc01edd2f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -34,23 +37,44 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="train_input2.txt">
+    <Text Include="weights2.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="train_output2.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="test_input2.txt">
+    <Text Include="train_input2.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="test_output2.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="test_input2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
     <Text Include="structure2.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="weights2.txt">
-      <Filter>Resource Files</Filter>
+    <Text Include="train_input.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="train_output.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="test_input.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="test_output.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="structure.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="weights.txt">
+      <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="ann_output.txt">
+      <Filter>Resource Files\example</Filter>
     </Text>
   </ItemGroup>
 </Project>
